@@ -6,10 +6,14 @@ import java.util.Comparator;
 public class Encoder {
 
     public String encrypt(String data, String key) {
+
+        //Filling table for encryption
         char[][] table = fillEncryptionTable(data, key);
 
+        //Sorting table for encryption
         Arrays.sort(table, Comparator.comparingInt(o -> o[0]));
 
+        //Building result string
         StringBuilder encryptedData = new StringBuilder();
         for (char[] column : table) {
             for (int columnCursor = 1; columnCursor < column.length; columnCursor++) {
@@ -33,10 +37,12 @@ public class Encoder {
         int dataCursor = 0;
         int keyCursor = 0;
 
+        //Filling the first line of the table
         for (int lineCursor = 0; lineCursor < keyWidth; lineCursor++) {
             table[lineCursor][0] = key.charAt(keyCursor++);
         }
 
+        //Filling the table
         for (int columnCursor = 1; columnCursor < tableDepth; columnCursor++) {
             for (int lineCursor = 0; lineCursor < keyWidth; lineCursor++) {
                 if (dataCursor < data.length()) {
@@ -50,6 +56,7 @@ public class Encoder {
 
     public String decrypt(String data, String key) {
 
+        //Filling table for decryption
         char[] chars = key.toCharArray();
         Arrays.sort(chars);
         String sortedKey = new String(chars);
@@ -69,20 +76,17 @@ public class Encoder {
             }
         }
 
+        //Building result string
         StringBuilder decryptedData = new StringBuilder();
-
         int dataCursor = 0;
         for (int columnCursor = 1; columnCursor < decryptedTable[0].length; columnCursor++) {
             for (int lineCursor = 0; lineCursor < key.length(); lineCursor++) {
-                if (dataCursor < data.length()) {
-                    decryptedData.append(decryptedTable[lineCursor][columnCursor]);
-                    dataCursor++;
-                }
+                decryptedData.append(decryptedTable[lineCursor][columnCursor]);
+                dataCursor++;
             }
         }
 
         return decryptedData.toString();
-
     }
 
     private char[][] fillDecryptionTable(String data, String key) {
@@ -97,13 +101,15 @@ public class Encoder {
         int dataCursor = 0;
         int keyCursor = 0;
 
+        //Filling the first line of table
         for (int lineCursor = 0; lineCursor < keyWidth; lineCursor++) {
             table[lineCursor][0] = key.charAt(keyCursor++);
         }
 
-            for (int lineCursor = 0; lineCursor < keyWidth; lineCursor++) {
-                for (int columnCursor = 1; columnCursor < tableDepth; columnCursor++) {
-                    if (dataCursor < data.length()) {
+        //Filling the table
+        for (int lineCursor = 0; lineCursor < keyWidth; lineCursor++) {
+            for (int columnCursor = 1; columnCursor < tableDepth; columnCursor++) {
+                if (dataCursor < data.length()) {
                     table[lineCursor][columnCursor] = data.charAt(dataCursor++);
                 }
             }
