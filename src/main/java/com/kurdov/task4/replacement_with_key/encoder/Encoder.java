@@ -3,6 +3,7 @@ package com.kurdov.task4.replacement_with_key.encoder;
 import java.util.Arrays;
 import java.util.Comparator;
 
+// TODO: 27.05.2019 Doesn't work for odd letter count
 public class Encoder {
 
     public String encrypt(String data, String key) {
